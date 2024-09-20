@@ -1,0 +1,95 @@
+body {
+	max-width: 600px;
+	min-width: 400px;
+	margin: auto;
+	padding: 10px;
+	background-color: #FEA85B;
+}
+
+/* Styles for INPUT */
+h1 {
+	padding: 10px;
+	background-color: #7FF3A2;
+	border-radius: 10px;
+}
+.input {
+	padding: 20px;
+	margin: 20px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 5px 5px 30px red;
+}
+.input-field {
+	padding: 10px;
+	font-size: 20px;
+}
+.text {
+	padding: 5px;
+	font-size: 20px;
+}
+.submit-button {
+	margin: 30px;
+	padding: 15px;
+	width: 200px;
+	border-radius: 10px;
+	background-color: #262A78;
+	color: white;
+	font-size: 20px;
+}
+
+/* Styles for the game */
+.game {
+	padding: 20px;
+	margin: 20px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 5px 5px 30px red;
+}
+.names {
+	display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+h4 {
+	font-size: 20px;
+	flex-grow: 1;
+}
+.matrix {
+	text-align: center;
+}
+.box {
+	padding: 5px;
+	margin-top: 3px;
+	width: 60px;
+	height: 60px;
+	border-radius: 5px;
+	font-size: 40px;
+    font-weight: 900;
+    background-color: #DAF7A6;
+}
+#status {
+	padding-left: 70px; 
+}
+.toolbar {
+	display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.tool {
+	margin: 5px;
+	padding: 10px;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: bolder;
+	flex-grow: 1;
+}
+#reset {
+	background-color: #FE9A98;
+}
+#undo {
+	background-color: #98BCFE;
+}
+#new {
+	background-color: #98FEA0;
+}
+

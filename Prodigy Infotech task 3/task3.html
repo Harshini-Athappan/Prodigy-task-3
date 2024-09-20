@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="task3.css">
+</head>
+<body>
+
+<div class="input-section">
+    <h1 class="title">Tic Tac Toe</h1>
+    <h2>Enter your details</h2>
+    <div class="input-field">
+        Player 1: <input class="text" type="text" id="player1">
+    </div>
+    <div class="input-field">
+        Player 2: <input class="text" type="text" id="player2">
+    </div>
+    <input class="submit-button" type="button" value="Start Game" onclick="startGame()">
+    <hr>
+</div>
+
+<div class="game-section">
+    <h1 class="title">Tic Tac Toe</h1>
+    <div class="names">
+        <h4>Player 1 (O): <span id="name1"></span></h4>
+        <h4>Player 2 (X): <span id="name2"></span></h4>
+    </div>
+    <div class="matrix">
+        <button class="box" id="box0" onclick="playGame(0)"></button>
+        <button class="box" id="box1" onclick="playGame(1)"></button>
+        <button class="box" id="box2" onclick="playGame(2)"></button>
+        <br>
+        <button class="box" id="box3" onclick="playGame(3)"></button>
+        <button class="box" id="box4" onclick="playGame(4)"></button>
+        <button class="box" id="box5" onclick="playGame(5)"></button>
+        <br>
+        <button class="box" id="box6" onclick="playGame(6)"></button>
+        <button class="box" id="box7" onclick="playGame(7)"></button>
+        <button class="box" id="box8" onclick="playGame(8)"></button>
+    </div>
+    <h3 id="status">Your turn: <span id="currPlayer"></span></h3>
+    <div class="toolbar">
+        <button class="tool" onclick="resetGame()">RESET</button>
+        <button class="tool" onclick="undo()">UNDO</button>
+        <button class="tool" onclick="newGame()">New Game</button>
+    </div>
+</div>
+
+<script>
+    var players = ["", ""];
+    var currentPlayer = 0;
+    var board = Array(9).fill(null);
+    var moveHistory = [];
+    var gameOver = false;
+    var winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    function newGame() {
+        document.querySelector('.input-section').style.display = 'block';
+        document.querySelector('.game-section').style.display = 'none';
+    }
+
+    function startGame() {
+        players[0] = document.getElementById('player1').value;
+        players[1] = document.getElementById('player2').value;
+
+        if (validatePlayers()) {
+            resetGame();
+            document.getElementById('name1').innerText = players[0];
+            document.getElementById('name2').innerText = players[1];
+            document.querySelector('.input-section').style.display = 'none';
+            document.querySelector('.game-section').style.display = 'block';
+        } else {
+            alert('Enter valid player names (different and at least 1 character long).');
+        }
+    }
+
+    function validatePlayers() {
+        return players[0] && players[1] && players[0] !== players[1];
+    }
+
+    function resetGame() {
+        board = Array(9).fill(null);
+        moveHistory = [];
+        currentPlayer = 0;
+        gameOver = false;
+        document.getElementById('currPlayer').innerText = players[currentPlayer];
+        document.querySelectorAll('.box').forEach(button => {
+            button.innerText = '';
+            button.disabled = false;
+        });
+        document.getElementById('status').innerText = "Your turn: " + players[currentPlayer];
+    }
+
+    function playGame(index) {
+        if (!gameOver && !board[index]) {
+            board[index] = currentPlayer;
+            document.getElementById(`box${index}`).innerText = currentPlayer === 0 ? 'O' : 'X';
+            moveHistory.push(index);
+
+            if (checkWinner()) {
+                document.getElementById('status').innerText = players[currentPlayer] + " wins!";
+                gameOver = true;
+                disableBoard();
+            } else if (moveHistory.length === 9) {
+                document.getElementById('status').innerText = "It's a draw!";
+                gameOver = true;
+            } else {
+                currentPlayer = 1 - currentPlayer;
+                document.getElementById('currPlayer').innerText = players[currentPlayer];
+                document.getElementById('status').innerText = "Your turn: " + players[currentPlayer];
+            }
+        }
+    }
+
+    function checkWinner() {
+        return winningCombinations.some(combination => {
+            return combination.every(index => board[index] === currentPlayer);
+        });
+    }
+
+    function disableBoard() {
+        document.querySelectorAll('.box').forEach(button => button.disabled = true);
+    }
+
+    function undo() {
+        if (moveHistory.length > 0 && !gameOver) {
+            const lastMove = moveHistory.pop();
+            board[lastMove] = null;
+            document.getElementById(`box${lastMove}`).innerText = '';
+            currentPlayer = 1 - currentPlayer;
+            document.getElementById('currPlayer').innerText = players[currentPlayer];
+            document.getElementById('status').innerText = "Your turn: " + players[currentPlayer];
+        } else {
+            alert('No moves to undo.');
+        }
+    }
+</script>
+
+</body>
+</html>
